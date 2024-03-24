@@ -41,6 +41,17 @@ def news(author):
 
 
 @pytest.fixture
+def create_news_objects():
+    def _create_news_objects(count):
+        for i in range(count):
+            News.objects.create(
+                title=f'title {i}',
+                text=f'text {i}',
+            )
+    return _create_news_objects
+
+
+@pytest.fixture
 def get_url_news_detail():
     def _get_url_news_detail(news):
         return (news.id,)
