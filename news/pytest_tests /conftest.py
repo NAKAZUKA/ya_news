@@ -1,7 +1,13 @@
+from django.utils import timezone
+from datetime import timedelta
 import pytest
 from django.test.client import Client
+from django.urls import reverse
 
 from news.models import News, Comment
+
+
+COUNT_COMMENTS_FOR_TESTING = 5
 
 
 @pytest.fixture
@@ -65,3 +71,26 @@ def comment(author, news):
         author=author,
         text='Текст комментария',
     )
+
+
+@pytest.fixture
+def create_comment_objects(author, news):
+    news_url = reverse('news:detail', kwargs={'pk': news.pk},)
+    now = timezone.now()
+    for index in range(COUNT_COMMENTS_FOR_TESTING):
+        comment = Comment.objects.create(
+            news=news, author=author, text=f'Comment text{index}',
+        )
+        comment.created = now + timedelta(days=index)
+        comment.save()
+    return news_url
+
+
+@pytest.fixture
+def form_data():
+    return {'text': 'Текст комментария'}
+
+
+@pytest.fixture
+def form_data_with_bad_wards():
+    return {'text': 'редиска'}
