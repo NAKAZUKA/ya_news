@@ -1,9 +1,6 @@
 import pytest
 from django.urls import reverse
-# from news.models import Comment
-
-
-COUNT_OBJECT_ON_DIFFERENT_PAGE = 10
+from conftest import COUNT_OBJECT_ON_DIFFERENT_PAGE
 
 
 @pytest.mark.django_db
@@ -43,7 +40,6 @@ def test_comment_form_availability(client, news, get_url_news_detail):
 @pytest.mark.django_db
 def test_comment_ordering(client, create_comment_objects):
     response = client.get(create_comment_objects)
-    assert 'news' in response.context
     news = response.context['news']
     all_comments = news.comment_set.all()
     all_timestamps = [comment.created for comment in all_comments]

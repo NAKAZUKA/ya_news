@@ -8,6 +8,7 @@ from news.models import News, Comment
 
 
 COUNT_COMMENTS_FOR_TESTING = 5
+COUNT_OBJECT_ON_DIFFERENT_PAGE = 10
 
 
 @pytest.fixture
@@ -89,8 +90,3 @@ def create_comment_objects(author, news):
 @pytest.fixture
 def form_data():
     return {'text': 'Текст комментария'}
-
-
-@pytest.fixture
-def form_data_with_bad_wards():
-    return {'text': 'редиска'}
